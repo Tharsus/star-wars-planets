@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-import { db } from './models/planetModel.js';
+import { db } from './models/dbModel.js';
 import router from './routes/router.js';
 
 (async () => {

@@ -1,4 +1,5 @@
 import { db } from '../models/dbModel.js';
+import { logger } from '../config/logger.js';
 
 const retrieve = async (req, res) => {
   try {
@@ -8,11 +9,13 @@ const retrieve = async (req, res) => {
       res.status(404).send({ message: "Couldn't find any planets" });
     }
 
+    logger.info(`GET /planets`);
     res.send(dbPlanets);
   } catch (error) {
-    res
-      .status(500)
-      .send({ message: error.message || 'Error while retrieving planets' });
+    const message = error.message || 'Error while retrieving planets';
+
+    logger.error(`GET /planets - ${JSON.stringify(message)}`);
+    res.status(500).send({ message: message });
   }
 };
 

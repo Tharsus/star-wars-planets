@@ -2,8 +2,24 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-const app = express();
+import { db } from './models/planetModel.js';
 
+(async () => {
+  try {
+    console.log(`Initializing DB connection`);
+
+    await db.mongoose.connect(db.url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  } catch (error) {
+    console.log(error);
+
+    process.exit(1);
+  }
+})();
+
+const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(

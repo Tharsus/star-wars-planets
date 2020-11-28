@@ -4,26 +4,25 @@ const db = {};
 db.mongoose = mongoose;
 db.url = process.env.MONGODB;
 
-const gradeSchema = mongoose.Schema({
+const planetSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  subject: {
+  climate: {
     type: String,
     required: true,
   },
-  value: {
+  terrain: {
+    type: String,
+    required: true,
+  },
+  appearances: {
     type: Number,
     required: true,
   },
-  lastModified: {
-    type: Date,
-    required: true,
-    default: Date.now,
-  },
 });
 
-db.model = mongoose.model('students', gradeSchema);
+db.model = mongoose.model('planets', planetSchema);
 
 export { db };

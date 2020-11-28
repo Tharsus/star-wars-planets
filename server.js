@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import { db } from './models/planetModel.js';
+import router from './routes/router.js';
 
 (async () => {
   try {
@@ -32,6 +33,7 @@ app.use(
 app.get('/', (req, res) => {
   res.send('API running');
 });
+app.use(router);
 
 app.listen(process.env.PORT || 8081, () => {
   console.log(`API running on port ${process.env.PORT || 8081}`);

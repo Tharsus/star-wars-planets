@@ -44,6 +44,10 @@ const getPlanet = async (planetName) => {
 
   const { name, climate, terrain, films } = resp.data.results[0];
 
+  if (name.toLowerCase() !== planetName.toLowerCase()) {
+    return { error: 'Planet name is not an exact match' };
+  }
+
   return {
     name,
     climate,

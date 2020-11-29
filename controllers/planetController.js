@@ -40,7 +40,10 @@ const create = async (req, res) => {
   }
 };
 
-const retrieve = async (req, res) => {
+const retrieve = async (req, res, next) => {
+  // If query has name, allow next route to handle the request
+  if (req.query.name) next();
+
   try {
     const dbPlanets = await db.model.find();
 
@@ -58,4 +61,45 @@ const retrieve = async (req, res) => {
   }
 };
 
-export default { create, retrieve };
+const retrieveByName = async (req, res) => {
+  const name = req.query.name;
+  const condition = { name: name };
+
+  try {
+    const planet = await db.model.findOne(condition);
+
+    if (!planet) {
+      res.status(404).send({ message: "Couldn't find planet" });
+    }
+
+    logger.info(`GET ${req.originalUrl}`);
+    res.send(planet);
+  } catch (error) {
+    const message = error.message || 'Error while retrieving planet';
+
+    logger.error(`GET ${req.originalUrl} - ${JSON.stringify(message)}`);
+    res.status(500).send({ message: message });
+  }
+};
+
+const retrieveById = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const planet = await db.model.findById({ _id: id });
+
+    if (!planet) {
+      res.status(404).send({ message: "Couldn't find planet" });
+    }
+
+    logger.info(`GET ${req.originalUrl}`);
+    res.send(planet);
+  } catch (error) {
+    const message = error.message || 'Error while retrieving planet';
+
+    logger.error(`GET ${req.originalUrl} - ${JSON.stringify(message)}`);
+    res.status(500).send({ message: message });
+  }
+};
+
+export default { create, retrieve, retrieveByName, retrieveById };

@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
 });
 app.use(router);
 
-app.listen(process.env.PORT || 8081, () => {
-  console.log(`API running on port ${process.env.PORT || 8081}`);
+const PORT = process.env.PORT || 8081;
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
 });

@@ -102,4 +102,26 @@ const retrieveById = async (req, res) => {
   }
 };
 
-export default { create, retrieve, retrieveByName, retrieveById };
+const deleteById = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const planet = await db.model.findByIdAndDelete({ _id: id });
+    console.log(planet);
+
+    if (!planet) {
+      res.status(404).send({ message: "Couldn't find planet to delete" });
+    }
+
+    logger.info(`DELETE ${req.originalUrl}`);
+    res.send({ message: 'Planet successfully deleted' });
+  } catch (error) {
+    console.log('error');
+    const message = error.message || 'Error while retrieving planet to delete';
+
+    logger.error(`DELETE ${req.originalUrl} - ${JSON.stringify(message)}`);
+    res.status(500).send({ message: message });
+  }
+};
+
+export default { create, retrieve, retrieveByName, retrieveById, deleteById };

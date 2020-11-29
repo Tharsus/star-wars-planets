@@ -4,30 +4,39 @@ import { logger } from '../config/logger.js';
 import SWAPI from '../helpers/StarWarsAPI.js';
 
 const create = async (req, res) => {
-  const newPlanet = {};
-  newPlanet.name = req.body.name;
-  newPlanet.climate = req.body.climate;
-  newPlanet.terrain = req.body.terrain;
+  const name = req.body.name;
 
-  if (!newPlanet.name || !newPlanet.climate || !newPlanet.terrain) {
-    return res.status(400).send({
-      message: 'Missing parameters in json',
-    });
+  if (!name) {
+    const message = 'Missing parameters in json';
+
+    logger.error(`POST ${req.originalUrl} - ${JSON.stringify(message)}`);
+    res.status(400).send({ message: message });
+    return;
   }
 
   try {
     // Verify if database already has the planet record
-    const condition = { name: newPlanet.name };
-    if ((await db.model.findOne(condition)) !== null)
-      throw new Error('Planet already in the database');
+    const condition = { name: name };
+    if ((await db.model.findOne(condition)) !== null) {
+      const message = 'Planet already in the database';
+
+      logger.error(`POST ${req.originalUrl} - ${JSON.stringify(message)}`);
+      res.status(400).send({ message: message });
+      return;
+    }
 
     // Validate planet name with the Star Wars API
-    const requestPlanet = await SWAPI.getPlanet(newPlanet.name);
+    const requestPlanet = await SWAPI.getPlanet(name);
     // Possible errors: more than one record found or planet doesn't exist
-    if (requestPlanet.error) throw new Error(requestPlanet.error);
+    if (requestPlanet.error) {
+      const message = requestPlanet.error;
 
-    newPlanet.appearances = requestPlanet.appearances;
-    const dbPlanet = new db.model(newPlanet);
+      logger.error(`POST ${req.originalUrl} - ${JSON.stringify(message)}`);
+      res.status(400).send({ message: message });
+      return;
+    }
+
+    const dbPlanet = new db.model(requestPlanet);
     await dbPlanet.save();
 
     logger.info(`POST /planets - ${JSON.stringify(dbPlanet)}`);

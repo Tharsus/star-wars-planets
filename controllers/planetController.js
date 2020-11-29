@@ -24,7 +24,7 @@ const create = async (req, res) => {
     const dbPlanet = new db.model(newPlanet);
     await dbPlanet.save();
 
-    logger.info(`POST /planets - ${JSON.stringify(req.body)}`);
+    logger.info(`POST /planets - ${JSON.stringify(dbPlanet)}`);
     res.send(dbPlanet);
   } catch (error) {
     const message = error.message || 'Error while creating new planet';

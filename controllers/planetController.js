@@ -16,8 +16,14 @@ const create = async (req, res) => {
   }
 
   try {
-    const requestPlanet = await SWAPI.getPlanet(newPlanet.name);
+    // Verify if database already has the planet record
+    const condition = { name: newPlanet.name };
+    if ((await db.model.findOne(condition)) !== null)
+      throw new Error('Planet already in the database');
 
+    // Validate planet name with the Star Wars API
+    const requestPlanet = await SWAPI.getPlanet(newPlanet.name);
+    // Possible errors: more than one record found or planet doesn't exist
     if (requestPlanet.error) throw new Error(requestPlanet.error);
 
     newPlanet.appearances = requestPlanet.appearances;

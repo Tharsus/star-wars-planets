@@ -48,15 +48,19 @@ const retrieve = async (req, res, next) => {
     const dbPlanets = await db.model.find();
 
     if (dbPlanets.length < 1) {
-      res.status(404).send({ message: "Couldn't find any planets" });
+      const message = "Couldn't find any planets";
+
+      logger.error(`GET ${req.originalUrl} - ${JSON.stringify(message)}`);
+      res.status(404).send({ message: message });
+      return;
     }
 
-    logger.info(`GET /planets`);
+    logger.info(`GET ${req.originalUrl}`);
     res.send(dbPlanets);
   } catch (error) {
     const message = error.message || 'Error while retrieving planets';
 
-    logger.error(`GET /planets - ${JSON.stringify(message)}`);
+    logger.error(`GET ${req.originalUrl} - ${JSON.stringify(message)}`);
     res.status(500).send({ message: message });
   }
 };
@@ -69,7 +73,11 @@ const retrieveByName = async (req, res) => {
     const planet = await db.model.findOne(condition);
 
     if (!planet) {
-      res.status(404).send({ message: "Couldn't find planet" });
+      const message = "Couldn't find planet";
+
+      logger.error(`GET ${req.originalUrl} - ${JSON.stringify(message)}`);
+      res.status(404).send({ message: message });
+      return;
     }
 
     logger.info(`GET ${req.originalUrl}`);
@@ -89,7 +97,11 @@ const retrieveById = async (req, res) => {
     const planet = await db.model.findById({ _id: id });
 
     if (!planet) {
-      res.status(404).send({ message: "Couldn't find planet" });
+      const message = "Couldn't find planet";
+
+      logger.error(`GET ${req.originalUrl} - ${JSON.stringify(message)}`);
+      res.status(404).send({ message: message });
+      return;
     }
 
     logger.info(`GET ${req.originalUrl}`);
@@ -107,16 +119,18 @@ const deleteById = async (req, res) => {
 
   try {
     const planet = await db.model.findByIdAndDelete({ _id: id });
-    console.log(planet);
 
     if (!planet) {
-      res.status(404).send({ message: "Couldn't find planet to delete" });
+      const message = "Couldn't find planet to delete";
+
+      logger.error(`DELETE ${req.originalUrl} - ${JSON.stringify(message)}`);
+      res.status(404).send({ message: message });
+      return;
     }
 
     logger.info(`DELETE ${req.originalUrl}`);
     res.send({ message: 'Planet successfully deleted' });
   } catch (error) {
-    console.log('error');
     const message = error.message || 'Error while retrieving planet to delete';
 
     logger.error(`DELETE ${req.originalUrl} - ${JSON.stringify(message)}`);

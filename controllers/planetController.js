@@ -42,7 +42,9 @@ const create = async (req, res) => {
 
 const retrieve = async (req, res, next) => {
   // If query has name, allow next route to handle the request
-  if (req.query.name) next();
+  if (req.query.name) {
+    return next();
+  }
 
   try {
     const dbPlanets = await db.model.find();

@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerDocument } from './documentation.js';
 
 import { db } from './models/dbModel.js';
 import router from './routes/router.js';
@@ -30,6 +32,7 @@ app.use(
 );
 
 //Middlewares
+app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get('/', (req, res) => {
   res.send('API running');
 });

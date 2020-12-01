@@ -1,6 +1,3 @@
-const PORT = process.env.PORT || 8081;
-const HOST = process.env.HOST;
-
 export const swaggerDocument = {
   swagger: '2.0',
   info: {
@@ -8,7 +5,7 @@ export const swaggerDocument = {
     version: '1.0.0',
     title: 'Star Wars Planets API',
   },
-  host: `${HOST}:${PORT}`,
+  host: process.env.HOST,
   tags: [
     {
       name: 'planets',

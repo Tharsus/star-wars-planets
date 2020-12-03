@@ -4,7 +4,9 @@ API que contém informações relacionadas aos planetas que aparecem na franquia
 
 Linguagem: Node.js
 
-Banco de dados: MongoDB, com o ODM Mongoose
+Banco de dados: MongoDB, com o ODM Mongoose. Coleções:
+- `planets`: armazena os dados dos planetas (id, nome, clima, terreno e número de aparições em filmes)
+- `logs_planets`: logs são cadastrados a cada request recebido, confirmando a solicitação ou registrando o erro.
 
 Demo publicada no Heroku: https://star-wars-planets-api.herokuapp.com/.
 
@@ -33,26 +35,30 @@ node -r dotenv/config server.js
 
 ## Casos de uso
 
-#### Listar planetas
+### Listar planetas
 Aguarda requests `GET` em `/planets/` e retorna um array com todos os planetas armazenados na base. Permite o parâmetro `name` detalhado na próxima seção.
 
 - Documentação: https://star-wars-planets-api.herokuapp.com/documentation/#/planets/get_planets
 - Exemplo utilizando a demo: GET https://star-wars-planets-api.herokuapp.com/planets/
 
-#### Buscar planeta por nome
+### Buscar planeta por nome
 Aguarda requests `GET` em `/planets/?name=` e retorna apenas um planeta, exigindo que o nome recebido como parâmetro seja exatamente igual ao cadastrado na base de dados.
 
 - Documentação: https://star-wars-planets-api.herokuapp.com/documentation/#/planets/get_planets
 - Exemplo utilizando a demo: GET https://star-wars-planets-api.herokuapp.com/planets/?name=Tatooine
 
-#### Buscar planeta por ID
+### Buscar planeta por ID
 Aguarda requests `GET` em `/planets/:id` e retorna apenas um planeta.
 
 - Documentação: https://star-wars-planets-api.herokuapp.com/documentation/#/planets/get_planets__planetId_
 - Exemplo utilizando a demo: GET https://star-wars-planets-api.herokuapp.com/planets/5fc400e7386dc41c9ca05172
 
-#### Adicionar um planeta
+### Adicionar um planeta
 Aguarda requests `POST` em `/planets/` com json no body contendo `name` e retorna o planeta com o `id` cadastrado na base de dados.
+
+**Ao recepcionar o request, o método valida se o nome do planeta é valido consultando a [SWAPI](https://swapi.dev/about).**
+
+**Caso a consulta seja bem sucedida, seu retorno é utilizado para cadastrar o clima, terreno e o número de aparições em filmes na base de dados**
 
 - Documentação: https://star-wars-planets-api.herokuapp.com/documentation/#/planets/post_planets
 - Exemplo utilizando a demo: POST https://star-wars-planets-api.herokuapp.com/planets/ com json: {"name":"Endor"}

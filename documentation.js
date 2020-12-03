@@ -174,7 +174,7 @@ export const swaggerDocument = {
             in: 'path',
             description: 'ID of planet to delete.',
             required: true,
-            type: 'integer',
+            type: 'string',
           },
         ],
         responses: {

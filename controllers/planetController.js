@@ -92,7 +92,7 @@ const retrieveByName = async (req, res) => {
     }
 
     logger.info(`GET ${req.originalUrl}`);
-    res.send(planet);
+    res.send([planet]);
   } catch (error) {
     const message = error.message || 'Error while retrieving planet';
 

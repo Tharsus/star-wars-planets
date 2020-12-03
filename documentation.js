@@ -41,13 +41,25 @@ export const swaggerDocument = {
           400: {
             description: 'Invalid input',
             schema: {
-              $ref: '#/definitions/Messages',
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string',
+                  example: 'Planet already in the database',
+                },
+              },
             },
           },
           500: {
             description: 'An error occurred',
             schema: {
-              $ref: '#/definitions/Messages',
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string',
+                  example: 'Error while creating new planet',
+                },
+              },
             },
           },
         },
@@ -72,20 +84,32 @@ export const swaggerDocument = {
             schema: {
               type: 'array',
               items: {
-                $ref: '#/definitions/Planets',
+                $ref: '#/definitions/Planet',
               },
             },
           },
           404: {
             description: 'Planet not found',
             schema: {
-              $ref: '#/definitions/Messages',
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string',
+                  example: "Couldn't find any planets",
+                },
+              },
             },
           },
           500: {
             description: 'An error occurred',
             schema: {
-              $ref: '#/definitions/Messages',
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string',
+                  example: 'Error while retrieving planets',
+                },
+              },
             },
           },
         },
@@ -116,13 +140,25 @@ export const swaggerDocument = {
           404: {
             description: 'Planet not found',
             schema: {
-              $ref: '#/definitions/Messages',
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string',
+                  example: "Couldn't find planet",
+                },
+              },
             },
           },
           500: {
             description: 'An error occurred',
             schema: {
-              $ref: '#/definitions/Messages',
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string',
+                  example: 'Error while retrieving planet',
+                },
+              },
             },
           },
         },
@@ -157,13 +193,25 @@ export const swaggerDocument = {
           404: {
             description: 'Planet not found',
             schema: {
-              $ref: '#/definitions/Messages',
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string',
+                  example: "Couldn't find planet to delete",
+                },
+              },
             },
           },
           500: {
             description: 'An error occurred',
             schema: {
-              $ref: '#/definitions/Messages',
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string',
+                  example: 'Error while retrieving planet to delete',
+                },
+              },
             },
           },
         },
@@ -207,26 +255,6 @@ export const swaggerDocument = {
         __v: {
           type: 'integer',
           example: 0,
-        },
-      },
-    },
-    Planets: {
-      type: 'object',
-      properties: {
-        planets: {
-          type: 'array',
-          items: {
-            $ref: '#/definitions/Planet',
-          },
-        },
-      },
-    },
-    Messages: {
-      type: 'object',
-      properties: {
-        message: {
-          type: 'string',
-          example: "Couldn't find planet",
         },
       },
     },
